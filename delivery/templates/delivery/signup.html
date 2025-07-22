@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Design Operator - Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
+
+</head>
+<body>
+    <h1>Signup Form</h1>
+
+    <form action="{% url 'handle_signup' %}" method="post">
+        {% csrf_token %}
+        
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br><br>
+        
+        <label for="text">Mobile:</label><br>
+        <input type="text" id="mobile" name="mobile"><br><br>
+        
+        <label for="address">Address:</label><br>
+        <textarea id="address" name="address"></textarea><br><br>
+        
+        <button type="submit">SIGN UP</button>
+    </form>
+</body>
+</html>

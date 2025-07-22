@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <table border>
+        <thead>
+        <tr>
+            <th>Info</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>Username</th>
+            <th>{{username}}</th>
+        </tr>
+        <tr>
+            <th>Password</th>
+            <th>{{password}}</th>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <th>{{email}}</th>
+        </tr>
+        <tr>
+            <th>Mobile</th>
+            <th>{{mobile}}</th>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <th>{{address}}</th>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

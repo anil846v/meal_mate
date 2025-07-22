@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Design Operator - Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
+
+</head>
+<body>
+    <h1>Signup Form</h1>
+
+    <form action="{% url 'add_restaurant' %}" method="post">
+        {% csrf_token %}
+        
+        <label for="name">Restaurant:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="picture">Picture url:</label><br>
+        <input type="url" id="picture" name="picture"><br><br>
+
+        <label for="cuisine">Cuisine:</label><br>
+        <input type="text" id="cuisine" name="cuisine"><br><br>
+        
+        <label for="rating">Rating:</label><br>
+        <input type="text" id="rating" name="rating"><br><br>
+        
+        <label for="address">Address:</label><br>
+        <textarea id="number" name="address" step = "0.1" min ="0" max ="5" required></textarea><br><br>
+        
+        <button type="submit">Add Restaurant</button>
+    </form>
+</body>
+</html>
