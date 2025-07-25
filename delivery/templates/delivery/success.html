@@ -6,6 +6,8 @@
 <body>
     <h1 style="color: green;">Login Successful!</h1>
     <p>Welcome, your login was successful.</p>
-    <a href="restaurant_page/">Add new Restaurant</a>
+    <a href="{% url 'add_restaurant_page' %}">Add new Restaurant</a><!--<a href="/restaurants/add">Add Restaurant</a>
+also use    -->
+    <a href="{% url 'show_restaurant_page' %}">Show all Restaurants</a>
 </body>
 </html>

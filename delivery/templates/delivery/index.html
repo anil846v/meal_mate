@@ -1,13 +1,19 @@
-<!-- chatting/templates/chatting/hoo.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Hoo Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
+    <title>Welcome page</title>
 </head>
-<body>
-    <h1>Welcome TO MealMate</h1>
-    <a href="signin/">SIGN In</a>
-    <a href="signup/">SIGN Up</a>
-    
+<body class="welcome-page">
+    <div class="welcome-container">
+        <h2>Welcome to <span class="brand-name">Meal-Mate</span></h2>
+        <div class="button-group">
+            <a href="signin/" class="btn">SIGN IN</a>
+            <a href="signup/" class="btn">SIGN UP</a>
+        </div>
+    </div>
 </body>
 </html>

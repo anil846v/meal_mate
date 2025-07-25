@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
+    <title>{{ restaurant.name }} - Menu</title>
+</head>
+<body>   
+    {% include 'delivery/navbar_full.html' %}
+
+
+    <a href="{% url 'show_cart_page' username %}">View cart</a>
+
+    <h1>Menu for {{ restaurant.name }}</h1>
+    <h3>Cuisine: {{ restaurant.cuisine }}</h3>
+    <img src="{{ restaurant.picture }}" alt="{{ restaurant.name }}" width="200">
+
+    <h2>Menu Items</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Veg/Non-Veg</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu_items %}
+            <tr>
+                <td>
+                    <img src="{{ item.picture }}" alt="{{ item.name }}" width="100">
+                </td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    {% if item.is_veg %}
+                        Veg
+                    {% else %}
+                        Non-Veg
+                    {% endif %}
+                </td> 
+                <td>
+                    <form method="POST" action="{% url 'add_to_cart' item.id username %}">
+                        {% csrf_token %}
+                        <button type="submit" onclick="return confirm('Are you sure you want to add to cart?')">Add to cart</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No menu items yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+</body>
+</html>
