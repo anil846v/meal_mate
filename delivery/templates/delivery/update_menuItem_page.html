@@ -8,6 +8,8 @@
     <title>Document</title>
 </head>
 <body>
+    {% include 'delivery/navbar_admin.html' %}
+
     <h2>Update Menu Item</h2>
     <form method="POST" action="{% url 'update_menuItem' item.id %}">
         {% csrf_token %}

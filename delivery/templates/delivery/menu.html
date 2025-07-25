@@ -8,6 +8,8 @@
     <title>{{ restaurant.name }} - Menu</title>
 </head>
 <body>
+    {% include 'delivery/navbar_admin.html' %}
+
     <h1>Menu for {{ restaurant.name }}</h1>
     <h3>Cuisine: {{ restaurant.cuisine }}</h3>
     <img src="{{ restaurant.picture }}" alt="{{ restaurant.name }}" width="200">
