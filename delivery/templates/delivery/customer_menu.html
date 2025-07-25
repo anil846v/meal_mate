@@ -7,12 +7,19 @@
 
     <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
     <title>{{ restaurant.name }} - Menu</title>
+    <style>
+        body{
+            background: url('/static/delivery/image/logo2.png') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+    </style>
 </head>
 <body>   
     {% include 'delivery/navbar_full.html' %}
 
 
-    <a href="{% url 'show_cart_page' username %}">View cart</a>
+    {% comment %} <a href="{% url 'show_cart_page' username %}">View cart</a> {% endcomment %}
 
     <h1>Menu for {{ restaurant.name }}</h1>
     <h3>Cuisine: {{ restaurant.cuisine }}</h3>
@@ -48,8 +55,14 @@
                 <td>
                     <form method="POST" action="{% url 'add_to_cart' item.id username %}">
                         {% csrf_token %}
-                        <button type="submit" onclick="return confirm('Are you sure you want to add to cart?')">Add to cart</button>
+                        <div style="display: flex; align-items: center;">
+                            <button type="button" onclick="decrementQuantity({{ item.id }})">-</button>
+                            <input type="number" name="quantity" id="quantity-{{ item.id }}" value="1" min="1" style="width: 40px; text-align: center;">
+                            <button type="button" onclick="incrementQuantity({{ item.id }})">+</button>
+                        </div>
+                        <button type="submit" onclick="return confirm('Add to cart with selected quantity?')">Add to cart</button>
                     </form>
+                    
                 </td>
             </tr>
             {% empty %}
@@ -59,7 +72,20 @@
             {% endfor %}
         </tbody>
     </table>
-
+    <script>
+        function incrementQuantity(itemId) {
+            const input = document.getElementById(`quantity-${itemId}`);
+            input.value = parseInt(input.value) + 1;
+        }
+        
+        function decrementQuantity(itemId) {
+            const input = document.getElementById(`quantity-${itemId}`);
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+        </script>
+        
     
 </body>
 </html>

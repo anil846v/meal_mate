@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body{
+            background: url('/static/delivery/image/logo2.png') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+    </style>
 </head>
 <body>
     {% include 'delivery/navbar_full.html' %}
@@ -25,8 +32,8 @@
         <tbody>
             {% for item in cart_items %}
             <tr>
-                <td>{{ item.name }}</td>
-                <td>₹{{ item.price }}</td>
+                <td>{{ item.menu_item.name }}</td>
+                <td>₹{{ item.menu_item.price }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -6,14 +6,23 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
     <title>Admin HOME</title>
+    <style>
+        body{
+            background: url('/static/delivery/image/logo3.png') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+        
+        
+    </style>
 </head>
 <body>
     {% include 'delivery/navbar_admin.html' %}
 
 
-    <h1>Welcome ADMIN!</h1>
-    <a href="{% url 'add_restaurant_page' %}">Add new Restaurant</a>
-    <a href="{% url 'show_restaurant_page' %}">Show Restaurants</a>
+    <h1 class = "adddd">Welcome ADMIN!</h1>
+    <a class ="sd" href="{% url 'add_restaurant_page' %}">Add new Restaurant</a>
+    <a class ="sd" href="{% url 'show_restaurant_page' %}">Show Restaurants</a>
 
 </body>
 </html>

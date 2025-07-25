@@ -32,6 +32,9 @@ urlpatterns = [
     
     path('logout/', views.logout_view, name='logout_view'),
     path('navbar/', views.navbar_full_page, name='navbar_full_page'),
+    # path('customer_home/<str:username>/<int:restaurant_id>/', views.customer_menu, name='customer_home'),
+    path('customer_home/<str:username>/', views.customer_menu_no_restaurant, name='customer_home_no_restaurant'),
+
 
 
 ]

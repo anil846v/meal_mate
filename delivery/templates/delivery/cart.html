@@ -7,12 +7,21 @@
 
     <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}">
     <title>Your Cart</title>
+    <style>
+        body{
+            background: url('/static/delivery/image/logo2.png') no-repeat center center fixed;
+            background-size: cover;
+
+        }
+    </style>
 </head>
 <body>
     {% include 'delivery/navbar_full.html' %}
 
     {% comment %} <h1>Welcome {{ username }}</h1> {% endcomment %}
-    <h2>Your Cart</h2>
+    <h1>Your Cart is Empty</h1>
+    <h2>Add items</h2>
+
 
     {% if items %}
     <table border="1">
@@ -26,15 +35,16 @@
         </thead>
         <tbody>
             {% for item in items %}
-            <tr>
-                <td>
-                    <img src="{{ item.picture }}" alt="{{ item.name }}" width="100">
-                </td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.description }}</td>
-                <td>₹{{ item.price }}</td>
-            </tr>
-            {% endfor %}
+<tr>
+    <td>
+        <img src="{{ item.menu_item.picture }}" alt="{{ item.menu_item.name }}" width="100">
+    </td>
+    <td>{{ item.menu_item.name }}</td>
+    <td>{{ item.menu_item.description }}</td>
+    <td>₹{{ item.menu_item.price }}</td>
+    <td>Qty: {{ item.quantity }}</td>
+</tr>
+{% endfor %}
         </tbody>
     </table>
     <h3>Total Price: ₹{{ total_price }}</h3>
@@ -43,10 +53,10 @@
         <button type="submit">Proceed to Checkout</button>
     </form>
 
-    <a href="{% url 'customer_menu' items.0.restaurant.id username %}">Back to Menu</a>
-    {% else %}
-    <p>Your cart is empty!</p>
-    <a href="/">Back to Home</a>
+    {% if restaurant_id %}
+    <a href="{% url 'customer_menu' restaurant_id username %}">Back to Menu</a>
     {% endif %}
+{% endif %}
+
 </body>
 </html>

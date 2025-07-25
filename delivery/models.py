@@ -32,11 +32,19 @@ class MenuItem(models.Model):
         return f"{self.name} {self.description} {self.price}"    
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete = models.CASCADE, related_name = "cart")
-    items = models.ManyToManyField("MenuItem",related_name="carts")
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="cart")
 
     def total_price(self):
-        return sum(item.price for item in self.items.all())
+        return sum(item.subtotal() for item in self.cart_items.all())
 
     def __str__(self):
-        return f"{self.customer.username} {self.total_price}"
+        return f"{self.customer.username} {self.total_price()}"
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE, related_name='cart_items')
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def subtotal(self):
+        return self.menu_item.price * self.quantity

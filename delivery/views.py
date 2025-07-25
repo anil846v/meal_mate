@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from delivery.models import Customer, Restaurant, MenuItem, Cart
+from delivery.models import Customer, Restaurant, MenuItem, Cart, CartItem
 from django.contrib import messages  # To display messages to the user
 
 import razorpay
@@ -187,22 +187,22 @@ def customer_menu(request, restaurant_id, username):
 
 # Add items to cart
 def add_to_cart(request, item_id, username):
-    # Check user and item
-    customer = get_object_or_404(Customer, username=username)
-    item = get_object_or_404(MenuItem, id=item_id)
+    if request.method == "POST":
+        quantity = int(request.POST.get("quantity", 1))
+        customer = get_object_or_404(Customer, username=username)
+        item = get_object_or_404(MenuItem, id=item_id)
 
-    # Get or create a cart for the customer
-    cart, created = Cart.objects.get_or_create(customer=customer)
+        cart, created = Cart.objects.get_or_create(customer=customer)
 
-    # Add the item to the cart
-    cart.items.add(item)
+        # Check if item already exists in cart
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=item)
+        if not created:
+            cart_item.quantity += quantity  # Update quantity
+        else:
+            cart_item.quantity = quantity
+        cart_item.save()
 
-    # Add a success message
-    messages.success(request, f"{item.name} added to your cart!")
-
-    # Stay on the same menu page
     return redirect('customer_menu', restaurant_id=item.restaurant.id, username=username)
-
 
 # Show Cart
 def show_cart_page(request, username):
@@ -211,8 +211,9 @@ def show_cart_page(request, username):
     cart = Cart.objects.filter(customer=customer).first()
 
     # Fetch cart items and total price
-    items = cart.items.all() if cart else []
+    items = cart.cart_items.all() if cart else []
     total_price = cart.total_price() if cart else 0
+
     cart_count = get_cart_count(username)
 
 
@@ -230,7 +231,7 @@ def checkout(request, username):
     # Fetch customer and their cart
     customer = get_object_or_404(Customer, username=username)
     cart = Cart.objects.filter(customer=customer).first()
-    cart_items = cart.items.all() if cart else []
+    cart_items = cart.cart_items.all() if cart else []
     total_price = cart.total_price() if cart else 0
 
     if total_price == 0:
@@ -270,12 +271,12 @@ def orders(request, username):
 
 
     # Fetch cart items and total price before clearing the cart
-    cart_items = cart.items.all() if cart else []
+    cart_items = cart.cart_items.all() if cart else []
     total_price = cart.total_price() if cart else 0
 
     # Clear the cart after fetching its details
     if cart:
-        cart.items.clear()
+        cart.cart_items.all().delete()  # ✅ This works
 
     return render(request, 'delivery/orders.html', {
         'username': username,
@@ -311,6 +312,16 @@ def get_cart_count(username):
     try:
         customer = Customer.objects.get(username=username)
         cart = Cart.objects.filter(customer=customer).first()
-        return cart.items.count() if cart else 0
+        if cart:
+            return sum(item.quantity for item in cart.cart_items.all())  # ✅ total quantity
+        return 0
     except Customer.DoesNotExist:
         return 0
+def customer_menu_no_restaurant(request, username):
+    restaurants = Restaurant.objects.all()
+    cart_count = get_cart_count(username)
+    return render(request, 'delivery/customer_home.html', {
+        'restaurants': restaurants,
+        'username': username,
+        'cart_count': cart_count
+    })
