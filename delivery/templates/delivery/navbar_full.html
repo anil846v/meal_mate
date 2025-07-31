@@ -19,7 +19,7 @@
     </div>
 
 
-    <div class="navbar-actions">
+    <div class="navbar-actions">        <!--in view already username is sending but here for knowldge i am requesting username-->
       <a href="{% url 'show_cart_page' username=request.session.username %}" class="cart-icon">
         🛒
         {% if cart_count %}
@@ -27,9 +27,9 @@
         {% endif %}
       </a>
 
-      <a href="{% url 'orders' username=request.session.username %}" class="order-btn"><span class="username">👤 {{ request.session.username }}</span></a>
+      <a href="{% url 'orders' username %}" class="order-btn"><span class="username">👤 {{ username }}</span></a>
       {% comment %} <span class="username">👤 {{ request.session.username }}</span> {% endcomment %}
-      <span class="user">Welcome {{ request.session.username }}</span>
+      <span class="user">Welcome {{ username }}</span>
 
 
       <a href="{% url 'logout_view' %}" class="logout-btn">Logout</a>

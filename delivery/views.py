@@ -28,8 +28,15 @@ def handle_login(request):
         try:
             # Check if the customer exists
             Customer.objects.get(username=username, password=password)
-             # ✅ Store username in session
+             #  Store username in session
             request.session['username'] = username
+            
+            '''✅ This sets a session variable for the user. Django:
+            1) Creates a session object if it doesn't exist.
+            2) Stores 'username': 'some_user' in that session.
+            3) Sends a session ID back to the user via a cookie.
+Now on every future request, Django reads the session ID from the cookie and loads the corresponding session data from the backend.
+'''
             if username == 'admin':
                 return render(request, 'delivery/admin_home.html')
             else:
@@ -175,7 +182,7 @@ def delete_menuItem(request, menuItem_id):
 # Customer Menu
 def customer_menu(request, restaurant_id, username):
     restaurant = get_object_or_404(Restaurant, id=restaurant_id)
-    menu_items = restaurant.menu_items.all()
+    menu_items = restaurant.menu_items.all()# one menu_items is comes from model
     cart_count = get_cart_count(username)
 
     return render(request, 'delivery/customer_menu.html', {
@@ -211,8 +218,11 @@ def show_cart_page(request, username):
     cart = Cart.objects.filter(customer=customer).first()
 
     # Fetch cart items and total price
-    items = cart.cart_items.all() if cart else []
+    items = cart.cart_items.all() if cart else []   #related_name='cart_items
     total_price = cart.total_price() if cart else 0
+    restaurants = Restaurant.objects.all()
+
+
 
     cart_count = get_cart_count(username)
 
@@ -221,7 +231,8 @@ def show_cart_page(request, username):
         'items': items,
         'total_price': total_price,
         'username': username,
-        'cart_count': cart_count
+        'cart_count': cart_count,
+        'restaurants':restaurants
     })
 
 

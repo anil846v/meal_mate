@@ -19,10 +19,6 @@
     {% include 'delivery/navbar_full.html' %}
 
     {% comment %} <h1>Welcome {{ username }}</h1> {% endcomment %}
-    <h1>Your Cart is Empty</h1>
-    <h2>Add items</h2>
-
-
     {% if items %}
     <table border="1">
         <thead>
@@ -31,20 +27,22 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Quantity</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
-<tr>
-    <td>
-        <img src="{{ item.menu_item.picture }}" alt="{{ item.menu_item.name }}" width="100">
-    </td>
-    <td>{{ item.menu_item.name }}</td>
-    <td>{{ item.menu_item.description }}</td>
-    <td>₹{{ item.menu_item.price }}</td>
-    <td>Qty: {{ item.quantity }}</td>
-</tr>
-{% endfor %}
+            <tr>
+                <td>
+                    <img src="{{ item.menu_item.picture }}" alt="{{ item.menu_item.name }}" width="100">
+                </td>
+                <td>{{ item.menu_item.name }}</td>
+                <td>{{ item.menu_item.description }}</td>
+                <td>₹{{ item.menu_item.price }}</td>
+                <td>Qty: {{ item.quantity }}</td>
+
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <h3>Total Price: ₹{{ total_price }}</h3>
@@ -53,10 +51,15 @@
         <button type="submit">Proceed to Checkout</button>
     </form>
 
-    {% if restaurant_id %}
-    <a href="{% url 'customer_menu' restaurant_id username %}">Back to Menu</a>
+    {% if restaurants %}
+    <a href="{% url 'customer_home_no_restaurant' username=username %}">
+        Back to Menu</a>
     {% endif %}
+{% else %}
+    <h1>Your Cart is Empty</h1>
+    <h2>Add items</h2>
 {% endif %}
+
 
 </body>
 </html>

@@ -4,8 +4,8 @@ from . import views
 urlpatterns = [
     # Home and authentication paths
     path('', views.index, name='index'),
-    path('signin/', views.signin, name='signin'),
-    path('signup/', views.signup, name='signup'),
+    path('signin/', views.signin),#here name is not required because we are using diectly like "<a href="signin/" class="btn">SIGN IN</a>"
+    path('signup/', views.signup, name= "signup"),#if we use like "<a href="{% url 'signup' %}" class="btn">Sign Up</a> then name is used"
     path('login/', views.handle_login, name='handle_login'),
     path('signup/submit/', views.handle_signup, name='handle_signup'),
 

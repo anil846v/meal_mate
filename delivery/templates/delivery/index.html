@@ -11,8 +11,8 @@
     <div class="welcome-container">
         <h2>Welcome to <span class="brand-name">Meal-Mate</span></h2>
         <div class="button-group">
-            <a href="signin/" class="btn">SIGN IN</a>
-            <a href="signup/" class="btn">SIGN UP</a>
+            <a href="signin/" class="btn">SIGN IN</a><!--name attribute is not needed in url-->
+            <a href="{% url 'signup' %}" class="btn">Sign Up</a> <!--then we will add name attribute in urls-->
         </div>
     </div>
 </body>
